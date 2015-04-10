@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Gerenciamento de Times</string>
+
+    <string name="action_cadastrar">Cadastrar</string>
+    <string name="action_verRegistro">Ver registro</string>
+    <string name="action_pesquisarMatricula">Pesquisar Matricula</string>
+</resources>
