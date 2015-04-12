@@ -12,11 +12,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import lel.servicos.Validacao;
 import lel.dados.Time;
 import java.util.ArrayList;
+import java.util.Collections;
 import lel.servicos.Cadastrar;
 
 
@@ -52,6 +52,9 @@ public class PrincipalActivity extends ActionBarActivity {
             case R.id.action_cadastrar:
                 verCadastrar();
             return true;
+            case R.id.action_pesquisarMatricula:
+                verPesquisar();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -224,6 +227,102 @@ public class PrincipalActivity extends ActionBarActivity {
     }
     private void verCadastrar(){
         setContentView(R.layout.activity_principal);
+    }
+    private void verPesquisar(){
+        setContentView(R.layout.activity_pesquisar);
+    }
+
+    public void matricula_click(View view) {
+        RadioButton nome;
+        TextView nomeView,matriculaView;
+        EditText campoNome, campoMatricula;
+
+        nome = (RadioButton) findViewById(R.id.radioButton_Nome);
+        nome.setChecked(false);
+        nomeView = (TextView) findViewById(R.id.textView_Nome);
+        nomeView.setVisibility(View.INVISIBLE);
+        matriculaView = (TextView) findViewById(R.id.textView_Matricula);
+        matriculaView.setVisibility(View.VISIBLE);
+        campoNome = (EditText)findViewById(R.id.editTextpesquisarNome_t);
+        campoNome.setVisibility(View.INVISIBLE);
+        campoMatricula = (EditText)findViewById(R.id.editTextPesquisarMatricula_t);
+        campoMatricula.setVisibility(View.VISIBLE);
+
+    }
+    public void nome_click(View view) {
+        RadioButton matricula;
+        TextView nomeView,matriculaView;
+        EditText campoNome, campoMatricula;
+
+        matricula = (RadioButton) findViewById(R.id.radioButton_Matricula);
+        matricula.setChecked(false);
+        matriculaView = (TextView) findViewById(R.id.textView_Matricula);
+        matriculaView.setVisibility(View.INVISIBLE);
+        nomeView = (TextView) findViewById(R.id.textView_Nome);
+        nomeView.setVisibility(View.VISIBLE);
+        campoNome = (EditText)findViewById(R.id.editTextpesquisarNome_t);
+        campoNome.setVisibility(View.VISIBLE);
+        campoMatricula = (EditText)findViewById(R.id.editTextPesquisarMatricula_t);
+        campoMatricula.setVisibility(View.INVISIBLE);
+
+
+    }
+
+    public void pesquisar_click(View view) {
+        RadioButton matricula,nome;
+        EditText campoPesquisar;
+        ListView listaPesquisa;
+
+        matricula = (RadioButton) findViewById(R.id.radioButton_Matricula);
+        nome = (RadioButton) findViewById(R.id.radioButton_Nome);
+
+        listaPesquisa = (ListView)findViewById(R.id.listViewPesquisar);
+        ArrayList<String> arrayList = new ArrayList<String>();
+
+        if (matricula.isChecked()==true){
+            campoPesquisar = (EditText)findViewById(R.id.editTextPesquisarMatricula_t);
+            arrayList.add(this.achaTime(times, campoPesquisar.getText().toString()));
+        }
+        else {
+            campoPesquisar = (EditText)findViewById(R.id.editTextpesquisarNome_t);
+            arrayList.add(this.achaTimes(times, campoPesquisar.getText().toString()));
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, arrayList);
+        listaPesquisa.setAdapter(adapter);
+        campoPesquisar.setText("");
+
+    }
+    private static String achaTime(ArrayList<Time> times, String matriculaS){
+        Integer matriculaI;
+        boolean entrou = false;
+        String resultadoPesquisa = null;
+        if(Validacao.validaConsulta(matriculaS)){
+            matriculaI = Integer.parseInt(matriculaS);
+            if(times.size() != 0){
+                for(Time time: times){
+                    if(time.getMatricula() == matriculaI){
+                        resultadoPesquisa = (time.toStringAviso());
+                        entrou = true;
+                    }
+                }
+                if(entrou == false)
+                    resultadoPesquisa = ("Nao ha matricula registrada com a matricula da consulta");
+            }
+            else {
+                resultadoPesquisa = ("Nao ha registros");
+            }
+        }
+        return resultadoPesquisa;
+    }
+    private static String achaTimes(ArrayList<Time> timesP, String nome){
+        ArrayList<Time> timesR = new ArrayList<Time>();
+        for(Time time: timesP){
+            if(time.getNome().toString().toLowerCase().trim().contains(nome.toLowerCase().trim())){
+                timesR.add(time);
+            }
+        }
+        Collections.sort(timesR);
+        return timesR.toString();
     }
 
 }
