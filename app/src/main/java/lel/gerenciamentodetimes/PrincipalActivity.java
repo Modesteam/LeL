@@ -74,14 +74,12 @@ public class PrincipalActivity extends ActionBarActivity {
             String resultadoValidacao = Validacao.validaTime(nome_t.getText().toString(), matricula_t.getText().toString(),
                     quantidade_t.getText().toString(), tem_estadio.isChecked(), nao_tem.isChecked(),
                     renda_t.getText().toString(), times, true);
-            System.out.println(resultadoValidacao);
             if(resultadoValidacao==null){
                 times.add(Cadastrar.cadastrarPrimeira(nome_t.getText().toString(),
                         matricula_t.getText().toString(),quantidade_t.getText().toString(),
                         tem_estadio.isChecked(),nao_tem.isChecked()));
                 limparCampos();
                 this.criarAviso("Cadastramento efetuado com sucesso!");
-                System.out.println("OK!!");
                // Aviso.avisoOK("Cadastramento efetuado com sucesso!");
             }else {
                 this.criarAviso(resultadoValidacao);
@@ -97,7 +95,7 @@ public class PrincipalActivity extends ActionBarActivity {
                             matricula_t.getText().toString(),quantidade_t.getText().toString(),
                             renda_t.getText().toString()));
                     limparCampos();
-                    System.out.println("OK!!");
+                    this.criarAviso("Cadastramento efetuado com sucesso!");
                    // Aviso.avisoOK("Cadastramento efetuado com sucesso!");
                 }else {
                     this.criarAviso(resultadoValidacao);
