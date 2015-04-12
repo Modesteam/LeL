@@ -4,4 +4,8 @@
     <string name="action_cadastrar">Cadastrar</string>
     <string name="action_verRegistro">Ver registro</string>
     <string name="action_pesquisarMatricula">Pesquisar Matricula</string>
+    <string name="title_activity_ver_registro">VerRegistro</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

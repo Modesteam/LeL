@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,12 +45,22 @@ public class PrincipalActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        switch (id) {
+            case R.id.action_verRegistro:
+                listarTodos(times);
+                return true;
+            case R.id.action_cadastrar:
+                verCadastrar();
+            return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
         //noinspection SimplifiableIfStatement
         //if (id == R.id.action_) {
         //    return true;
         //}
 
-        return super.onOptionsItemSelected(item);
+        //return super.onOptionsItemSelected(item);
     }
     public void cadastrar_click(View view){
 
@@ -189,5 +201,30 @@ public class PrincipalActivity extends ActionBarActivity {
         //Exibe
         alerta.show();
     }
+    private void listarTodos(ArrayList<Time> times){
+        setContentView(R.layout.activity_ver_registro);
+        ListView lista;
+        lista = (ListView)findViewById(R.id.listView_todos);
+        ArrayList<String> arrayList = new ArrayList<String>();
+
+            if(times.size() !=0){
+
+                for(int aux=0; aux< times.size();aux++){
+
+                    arrayList.add(times.get(aux).toString());
+
+                    System.out.println(times.get(aux));
+                }
+            }
+            else {
+                arrayList.add("Nao ha registros.");
+            }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, arrayList);
+        lista.setAdapter(adapter);
+    }
+    private void verCadastrar(){
+        setContentView(R.layout.activity_principal);
+    }
 
 }
+
